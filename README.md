@@ -32,59 +32,59 @@ We could read the file as follows.
 
 * Define a Java Bean that corresponds to a row in the excel file.
 
-    class Person {
-        private Long id;
-        private String firstName;
-        private String lastName;
-        private Date birthDate;
+        class Person {
+            private Long id;
+            private String firstName;
+            private String lastName;
+            private Date birthDate;
 
-        public Person() {
-            super();
+            public Person() {
+                super();
+            }
+            public Long getId() {
+                return id;
+            }
+            public void setId(Long id) {
+                this.id = id;
+            }
+            public String getFirstName() {
+                return firstName;
+            }
+            public void setFirstName(String firstName) {
+                this.firstName = firstName;
+            }
+            public String getLastName() {
+                return lastName;
+            }
+            public void setLastName(String lastName) {
+                this.lastName = lastName;
+            }
+            public Date getBirthDate() {
+                return birthDate;
+            }
+            public void setBirthDate(Date birthDate) {
+                this.birthDate = birthDate;
+            }
         }
-        public Long getId() {
-            return id;
-        }
-        public void setId(Long id) {
-            this.id = id;
-        }
-        public String getFirstName() {
-            return firstName;
-        }
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-        public String getLastName() {
-            return lastName;
-        }
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-        public Date getBirthDate() {
-            return birthDate;
-        }
-        public void setBirthDate(Date birthDate) {
-            this.birthDate = birthDate;
-        }
-    }
 
 * Create the ExcelProcessor with the column mappings.
 
-    ExcelProcessor<Person> processor = new ExcelProcessor<>(Person.class)
-        .column(new LongColumn("Identifier", "id" ))
-		.column(new StringColumn("First Name", "firstName"))
-		.column(new StringColumn("Last Name", "lastName"))
-		.column(new DateColumn("Date of Birth", "birthDate", "DD/MM/YYYY"));
+        ExcelProcessor<Person> processor = new ExcelProcessor<>(Person.class)
+            .column(new LongColumn("Identifier", "id" ))
+            .column(new StringColumn("First Name", "firstName"))
+            .column(new StringColumn("Last Name", "lastName"))
+            .column(new DateColumn("Date of Birth", "birthDate", "DD/MM/YYYY"));
 
 * Now read a list of people
 
-    List<Person> people = processor.read(new File("people.xlsx");
+        List<Person> people = processor.read(new File("people.xlsx");
 
 * Rows that could not be read will be listed in the errors
 
-    if (processor.hasErrors()) {
-        List<ImportError> errors = processor.getErrors()
-        //handle errors
-    }
+        if (processor.hasErrors()) {
+            List<ImportError> errors = processor.getErrors()
+            //handle errors
+        }
 
 ### Writing an excel file ###
 
@@ -94,11 +94,11 @@ We could read the file as follows.
 
 * Now we create a list of beans
 
-    List<Person> people = new ArrayList<>();
-    // add objects to the list
-    // people.add(...
-    processor.worksheet("people"); //select the name of the worksheet to write to (optional)
-    processor.write(people, new File("people.xlsx"));
+        List<Person> people = new ArrayList<>();
+        // add objects to the list
+        // people.add(...
+        processor.worksheet("people"); //select the name of the worksheet to write to (optional)
+        processor.write(people, new File("people.xlsx"));
 
 ### Questions? ###
 

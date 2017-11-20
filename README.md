@@ -20,7 +20,7 @@ Add the following dependency in your pom.xml:
 
 ### Reading objects from an excel file ###
 
-Given and excel file with contents:
+* Given and excel file with contents:
 
 id      | First Name      | Last Name      | Date of Birth
 :-------|:----------------|:---------------|:-------------
@@ -28,9 +28,9 @@ id      | First Name      | Last Name      | Date of Birth
 2       | Gert            | Verbiest       | 11/10/1988
 3       | Monique         | Verstappen     | 10/06/1978
 
-We could read the file as follows.
+We can read the file as follows.
 
-* Define a Java Bean that corresponds to a row in the excel file.
+1. Define a Java Bean that corresponds to a row in the excel file.
 
         class Person {
             private Long id;
@@ -67,7 +67,7 @@ We could read the file as follows.
             }
         }
 
-* Create the ExcelProcessor with the column mappings.
+2. Create the ExcelProcessor with the column mappings.
 
         ExcelProcessor<Person> processor = new ExcelProcessor<>(Person.class)
             .column(new LongColumn("Identifier", "id" ))
@@ -75,11 +75,11 @@ We could read the file as follows.
             .column(new StringColumn("Last Name", "lastName"))
             .column(new DateColumn("Date of Birth", "birthDate", "DD/MM/YYYY"));
 
-* Now read a list of people
+3. Now read a list of people
 
         List<Person> people = processor.read(new File("people.xlsx");
 
-* Rows that could not be read will be listed in the errors
+4. Inspect errors
 
         if (processor.hasErrors()) {
             List<ImportError> errors = processor.getErrors()

@@ -86,17 +86,21 @@ We can read the file as follows.
             //handle errors
         }
 
-### Writing an excel file ###
+### Writing objects to an excel file ###
 
 * The first two steps are the same as reading from an excel file
     1. Define a Java Bean.
     2. Create an ExcelProcessor with column definitions.
 
-* Now we create a list of beans
+
+* Now create a list of beans
 
         List<Person> people = new ArrayList<>();
         // add objects to the list
         // people.add(...
+
+* And finally write to the excel file
+
         processor.worksheet("people"); //select the name of the worksheet to write to (optional)
         processor.write(people, new File("people.xlsx"));
 

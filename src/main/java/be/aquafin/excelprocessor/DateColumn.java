@@ -6,17 +6,17 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class DateColumn extends NumericColumn<Date> {
+public class DateColumn extends NumericConverterColumn<Date> {
 	
 	private String dateformat;
 	private CellStyle style;
 	
-	public DateColumn(String name, String property, int sequence, String format) {		
+	public DateColumn(String name, String property, String format) {
 		super(name, 
 				property, 
 				number -> {return DateUtil.getJavaDate(number);}, 
 				d -> {return DateUtil.getExcelDate(d);},
-				sequence);
+				0);
 		this.dateformat = format;
 	}
 		

@@ -8,8 +8,8 @@ public class CentimeterColumn extends IntegerColumn {
 
 	private CellStyle style;
 	
-	public CentimeterColumn(String name, String property, int sequence) {
-		super(name, property, sequence);
+	public CentimeterColumn(String name, String property) {
+		super(name, property);
 	}
 	
 	@Override

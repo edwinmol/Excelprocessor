@@ -3,14 +3,14 @@ package be.aquafin.excelprocessor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class FloatColumn extends NumericColumn<Float> {
+public class FloatColumn extends NumericConverterColumn<Float> {
 
-	public FloatColumn(String name, String property, int sequence) {
+	public FloatColumn(String name, String property) {
 		super(name, 
 				property,  
 				d -> d.floatValue(), 
 				f -> f.doubleValue(), 
-				sequence);
+				0);
 	}
 
 	@Override

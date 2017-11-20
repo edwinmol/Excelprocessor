@@ -3,10 +3,10 @@ package be.aquafin.excelprocessor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class LongColumn extends NumericColumn<Long> {
+public class LongColumn extends NumericConverterColumn<Long> {
 
-	public LongColumn(String name, String property, int sequence) {
-		super(name, property,  d -> {return Math.round(d);}, l -> {return l.doubleValue();}, sequence);
+	public LongColumn(String name, String property) {
+		super(name, property,  d -> {return Math.round(d);}, l -> {return l.doubleValue();}, 0);
 	}
 
 	@Override

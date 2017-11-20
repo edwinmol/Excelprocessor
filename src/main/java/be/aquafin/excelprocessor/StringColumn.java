@@ -3,10 +3,10 @@ package be.aquafin.excelprocessor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class StringColumn<T> extends Column<T, String> {
+public class StringColumn extends StringConverterColumn<String> {
 
-	public StringColumn(String name, String property, PropertyConverter<T, String> read, PropertyConverter<String, T> write, int sequence) {
-		super(name, property, read, write, sequence);
+	public StringColumn(String name, String property) {
+		super(name, property, a -> a, a -> a, 0);
 	}
 
 	@Override

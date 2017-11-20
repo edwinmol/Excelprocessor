@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -165,9 +164,9 @@ public class ExcelProcessorTest {
 	public void beanCreationError() throws Exception {
 		File file = new File("src/test/resources/worksheets.xlsx");
 		ExcelProcessor<BirdWithoutDefaultConstructor> processor = new ExcelProcessor<>(BirdWithoutDefaultConstructor.class)
-				.column(new DefaultStringColumn("name", "name", 1 ))
-				.column(new DefaultStringColumn("color", "color", 2))
-				.column(new CentimeterColumn("size", "size", 3))
+				.column(new StringColumn("name", "name"))
+				.column(new StringColumn("color", "color"))
+				.column(new CentimeterColumn("size", "size"))
 				.worksheet("birds");
 		List<BirdWithoutDefaultConstructor> birds = processor.read(file);
 		List<ImportError> errors = processor.getErrors();
@@ -178,9 +177,9 @@ public class ExcelProcessorTest {
 	
 	private ExcelProcessor<Bird> createBirdProcessor() {
 		ExcelProcessor<Bird> processor = new ExcelProcessor<>(Bird.class)
-				.column(new DefaultStringColumn("name", "name", 1 ))
-				.column(new DefaultStringColumn("color", "color", 2))
-				.column(new CentimeterColumn("size", "size", 3))
+				.column(new StringColumn("name", "name" ))
+				.column(new StringColumn("color", "color"))
+				.column(new CentimeterColumn("size", "size"))
 				.worksheet("birds");
 		return processor;
 	}
@@ -188,13 +187,13 @@ public class ExcelProcessorTest {
 
 	private ExcelProcessor<Person> createPersonProcessor() {
 		ExcelProcessor<Person> processor = new ExcelProcessor<>(Person.class)
-				.column(new LongColumn("id", "id", 1 ))
-				.column(new DefaultStringColumn("First Name", "firstName", 2))
-				.column(new DefaultStringColumn("Last Name", "lastName", 3))
-				.column(new DateColumn("Date of Birth", "birthDate", 4, "DD/MM/YYYY"))
-				.column(new FloatColumn("Active percentage", "active", 5))
-				.column(new CurrencyColumn("Salary", "salary", 6))
-				.column(new DefaultBooleanColumn("Programmer", "programmer", 7));
+				.column(new LongColumn("id", "id" ))
+				.column(new StringColumn("First Name", "firstName"))
+				.column(new StringColumn("Last Name", "lastName"))
+				.column(new DateColumn("Date of Birth", "birthDate", "DD/MM/YYYY"))
+				.column(new FloatColumn("Active percentage", "active"))
+				.column(new CurrencyColumn("Salary", "salary"))
+				.column(new BooleanColumn("Programmer", "programmer"));
 		return processor;
 	}
 

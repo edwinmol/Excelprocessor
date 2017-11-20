@@ -139,11 +139,11 @@ public class ExcelProcessor<T> {
 		// read the cells value and set the property of the bean after converting it to the proper type
 		Object value = null;
 		try {
-			if (c instanceof NumericColumn<?>) {
+			if (c instanceof NumericConverterColumn<?>) {
 				value = getNumericValue(cell);
-			} else if (c instanceof StringColumn<?>) {
+			} else if (c instanceof StringConverterColumn<?>) {
 				value = getStringValue(cell);
-			} else if (c instanceof BooleanColumn<?>) {
+			} else if (c instanceof BooleanConverterColumn<?>) {
 				value = getBooleanValue(cell);
 			}
 			// convert the value to the correct destination value and 
@@ -247,13 +247,13 @@ public class ExcelProcessor<T> {
 
 	private void writeCell(T bean, Column<?,?> c, Cell cell) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Object value = c.writeConvert(PropertyUtils.getProperty(bean, c.getProperty()));
-		if (c instanceof NumericColumn<?>) {
+		if (c instanceof NumericConverterColumn<?>) {
 			cell.setCellType(CellType.NUMERIC);
 			cell.setCellValue((Double)value);
-		} else if (c instanceof StringColumn<?>) {
+		} else if (c instanceof StringConverterColumn<?>) {
 			cell.setCellType(CellType.STRING);
 			cell.setCellValue((String)value);
-		} else if (c instanceof BooleanColumn<?>) {
+		} else if (c instanceof BooleanConverterColumn<?>) {
 			cell.setCellType(CellType.BOOLEAN);
 			cell.setCellValue((Boolean)value);
 		}
@@ -267,6 +267,7 @@ public class ExcelProcessor<T> {
 		if (c.getProperty()==null) {
 			c.setProperty(c.getName());
 		}
+		c.setSequence(columns.size());
 		columns.put(c.getName().toLowerCase(), c);
 		return this;
 	}

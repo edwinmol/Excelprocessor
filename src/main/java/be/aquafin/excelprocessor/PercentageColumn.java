@@ -4,16 +4,16 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class PercentageColumn extends NumericColumn<Float> {
+public class PercentageColumn extends NumericConverterColumn<Float> {
 
 	private CellStyle style;
 	
-	public PercentageColumn(String name, String property, int sequence) {
+	public PercentageColumn(String name, String property) {
 		super(name, 
 				property,  
 				d -> d.floatValue(), 
 				f -> f.doubleValue(), 
-				sequence);
+				0);
 	}
 
 	@Override

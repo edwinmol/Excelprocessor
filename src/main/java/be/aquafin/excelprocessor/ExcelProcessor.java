@@ -33,30 +33,41 @@ public class ExcelProcessor<T> {
 	private String worksheet;
 	// the class of the beans that will be written or read
 	private Class<T> beanClass;
-	
+
+	// the list of errors (after import)
+	private List<ImportError> errors;
+	// mapping of column numbers to columns
+	private Map<Integer, Column<?,?>> columnNumbers;
+
 	private static Logger log = Logger.getLogger(ExcelProcessor.class.getName());
 	
 	public ExcelProcessor(Class<T> beanClass) {
 		this.beanClass = beanClass;
 	}
 
-	public List<T> read(File file, List<ImportError> errors) throws IOException {
+	private void readinit() {
+		errors = new ArrayList<>();
+		columnNumbers = new HashMap<>();
+	}
+
+	public List<T> read(File file) throws IOException {
 		if (file==null || !file.exists()) {
 			throw new IllegalArgumentException("Invalid file!");
 		}
 		try(InputStream in = new FileInputStream(file)) {
-			return read(in,errors);
+			return read(in);
 		} catch (FileNotFoundException e) {
 			log.log(Level.SEVERE, "Cannot open input file", e);
 		} 
 		return null;
 	}
 	
-	public List<T> read(InputStream stream, List<ImportError> errors) throws IOException {
+	public List<T> read(InputStream stream) throws IOException {
 		if (stream == null) {
 			throw new IllegalArgumentException("InputStream cannot be null!");
 		}
-		List<T> result = new ArrayList<>();		
+		readinit();
+		List<T> result = new ArrayList<T>();
 		try (Workbook wb = new XSSFWorkbook(stream)) {
 			Sheet sheet = wb.getSheetAt(0);
 			if (worksheet!=null) {
@@ -65,11 +76,10 @@ public class ExcelProcessor<T> {
 			if (sheet==null) {
 				errors.add(new ImportError(ImportError.Type.WORKSHEET_NOT_FOUND,null,null,null));
 			} else {
-				Iterator<Row> rows = sheet.iterator(); 
-				Map<Integer, Column<?,?>> columnNumbers = new HashMap<>();
+				Iterator<Row> rows = sheet.iterator();
 				while (rows.hasNext()) {
 					Row row = rows.next();
-					T bean = readRow(row, columnNumbers, errors);
+					T bean = readRow(row);
 					if (bean!=null) {
 						result.add(bean);
 					}
@@ -79,21 +89,20 @@ public class ExcelProcessor<T> {
 				}	
 			}					
 		}
-			
 		return result;
 	}
 
-	private T readRow(Row row, Map<Integer, Column<?,?>> columnNumbers, List<ImportError> errors) {
+	private T readRow(Row row) {
 		T result = null;
 		if (columnNumbers.size() == 0) {
-			readHeader(row, columnNumbers,errors);
+			readHeader(row);
 		} else {
-			result = readBean(row, columnNumbers, errors);
+			result = readBean(row);
 		}
 		return result;
 	}
 
-	private T readBean(Row row, Map<Integer, Column<?, ?>> columnNumbers, List<ImportError> errors) {
+	private T readBean(Row row) {
 		T result = null;
 		if (!isEmptyRow(row)) {
 			try {
@@ -108,7 +117,7 @@ public class ExcelProcessor<T> {
 					Cell cell = cellIterator.next();
 					Column<?,?> c = columnNumbers.get(cell.getColumnIndex());
 					if (c != null) {
-						readProperty(result, c, cell, errors);
+						readProperty(result, c, cell);
 					}
 				}
 			}
@@ -126,7 +135,7 @@ public class ExcelProcessor<T> {
 	    return true;
 	}
 
-	private void readProperty(T bean, Column<?,?> c, Cell cell, List<ImportError> errors) {
+	private void readProperty(T bean, Column<?,?> c, Cell cell) {
 		// read the cells value and set the property of the bean after converting it to the proper type
 		Object value = null;
 		try {
@@ -150,7 +159,7 @@ public class ExcelProcessor<T> {
 		
 	}
 
-	private void readHeader(Row row, Map<Integer, Column<?,?>> columnNumbers, List<ImportError> errors) {
+	private void readHeader(Row row) {
 		try {
 			Iterator<Cell> cellIterator = row.cellIterator();		
 			while (cellIterator.hasNext()) {
@@ -289,6 +298,14 @@ public class ExcelProcessor<T> {
 			result = cell.getBooleanCellValue();			
 		}
 		return result;
+	}
+
+	public boolean hasErrors() {
+		return errors!=null && !errors.isEmpty();
+	}
+
+	public List<ImportError> getErrors() {
+		return errors;
 	}
 
 }

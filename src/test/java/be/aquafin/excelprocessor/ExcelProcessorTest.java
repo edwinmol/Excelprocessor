@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class ExcelProcessorTest {
 
-	static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	private static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Test
 	public void testExcelProcessor() {
@@ -30,9 +30,9 @@ public class ExcelProcessorTest {
 	public void readValidFile() throws Exception {
 		ExcelProcessor<Person> processor = createPersonProcessor();
 		File file = new File("src/test/resources/valid.xlsx");
-		List<ImportError> errors = new ArrayList<>();
-		List<Person> persons = processor.read(file, errors);
-		assertThat(errors.size(), is(0));
+		List<Person> persons = processor.read(file);
+		assertThat(processor.hasErrors(), is(false));
+		assertThat(processor.getErrors().size(), is(0));
 		assertThat(persons.size(), is(4));
 		assertThat(persons.get(0).getId(), is(1l));
 		assertThat(persons.get(0).getFirstName(), is("Harry"));
@@ -47,10 +47,8 @@ public class ExcelProcessorTest {
 	public void readSpecificWorksheet() throws Exception {
 		ExcelProcessor<Bird> processor = createBirdProcessor();
 		try (InputStream in = getClass().getClassLoader().getResourceAsStream("worksheets.xlsx")) {
-			
-			List<ImportError> errors = new ArrayList<>();
-			List<Bird> birds = processor.read(in, errors);
-			assertThat(errors.size(), is(0));
+			List<Bird> birds = processor.read(in);
+			assertThat(processor.hasErrors(), is(false));
 			assertThat(birds.size(), is(2));
 			assertThat(birds.get(0).getName(), is("Colibri"));
 			assertThat(birds.get(0).getSize(), is(10));
@@ -61,8 +59,8 @@ public class ExcelProcessorTest {
 	public void columnNotFound() throws Exception {
 		ExcelProcessor<Person> processor = createPersonProcessor();
 		File file = new File("src/test/resources/column not found.xlsx");
-		List<ImportError> errors = new ArrayList<>();
-		List<Person> persons = processor.read(file, errors);
+		List<Person> persons = processor.read(file);
+		List<ImportError> errors = processor.getErrors();
 		assertThat(errors.size(), is(1));
 		assertThat(errors.get(0).getType(), is(ImportError.Type.COLUMN_NOT_FOUND));
 		assertThat(errors.get(0).getColumn().getName(), is("Date of Birth"));
@@ -73,8 +71,8 @@ public class ExcelProcessorTest {
 	public void headerNotFound() throws Exception {
 		ExcelProcessor<Person> processor = createPersonProcessor();
 		File file = new File("src/test/resources/no header.xlsx");
-		List<ImportError> errors = new ArrayList<>();
-		List<Person> persons = processor.read(file, errors);
+		List<Person> persons = processor.read(file);
+		List<ImportError> errors = processor.getErrors();
 		assertThat(errors.size(), is(1));
 		assertThat(persons.size(), is(0));
 		assertThat(errors.get(0).getType(), is(ImportError.Type.HEADER_NOT_FOUND));
@@ -86,8 +84,8 @@ public class ExcelProcessorTest {
 		ExcelProcessor<Person> processor = createPersonProcessor();
 		processor.worksheet("not found");
 		File file = new File("src/test/resources/worksheets.xlsx");
-		List<ImportError> errors = new ArrayList<>();
-		List<Person> persons = processor.read(file, errors);
+		List<Person> persons = processor.read(file);
+		List<ImportError> errors = processor.getErrors();
 		assertThat(errors.size(), is(1));
 		assertThat(persons.size(), is(0));
 		assertThat(errors.get(0).getType(), is(ImportError.Type.WORKSHEET_NOT_FOUND));
@@ -98,8 +96,8 @@ public class ExcelProcessorTest {
 	public void invalidProperties() throws Exception {
 		ExcelProcessor<Person> processor = createPersonProcessor();
 		File file = new File("src/test/resources/invalid properties.xlsx");
-		List<ImportError> errors = new ArrayList<>();
-		List<Person> persons = processor.read(file, errors);
+		List<Person> persons = processor.read(file);
+		List<ImportError> errors = processor.getErrors();
 		assertThat(errors.size(), is(3));
 		assertThat(persons.size(), is(5));
 		assertThat(errors.get(0).getType(), is(ImportError.Type.GET_PROPERTY_FAILED));
@@ -126,7 +124,7 @@ public class ExcelProcessorTest {
 			processor.worksheet("people");
 			processor.write(people, file);
 			//now read the file
-			List<Person> people2 = processor.read(file, new ArrayList<>());
+			List<Person> people2 = processor.read(file);
 			assertThat(people2.size(), is(people.size()));
 			assertTrue(people.get(0).equals(people2.get(0)));
 		} finally {
@@ -171,8 +169,8 @@ public class ExcelProcessorTest {
 				.column(new DefaultStringColumn("color", "color", 2))
 				.column(new CentimeterColumn("size", "size", 3))
 				.worksheet("birds");
-		List<ImportError> errors = new ArrayList<>();
-		List<BirdWithoutDefaultConstructor> birds = processor.read(file, errors);
+		List<BirdWithoutDefaultConstructor> birds = processor.read(file);
+		List<ImportError> errors = processor.getErrors();
 		assertThat(errors.size(), is(2));
 		assertThat(birds.size(), is(0));
 		assertThat(errors.get(0).getType(), is(ImportError.Type.ERROR_CREATING_BEAN));

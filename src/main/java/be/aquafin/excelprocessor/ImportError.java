@@ -47,6 +47,14 @@ public class ImportError {
 		this.lineNumber = lineNumber;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	@Override
 	public String toString() {
 		return "ImportError [type=" + type + ", column=" + column + ", lineNumber=" + lineNumber + ", message="

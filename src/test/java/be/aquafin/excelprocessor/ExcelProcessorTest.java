@@ -33,6 +33,7 @@ public class ExcelProcessorTest {
 		assertThat(processor.hasErrors(), is(false));
 		assertThat(processor.getErrors().size(), is(0));
 		assertThat(persons.size(), is(4));
+		assertThat(processor.getBeanInfo().size(), is(4));
 		assertThat(persons.get(0).getId(), is(1l));
 		assertThat(persons.get(0).getFirstName(), is("Harry"));
 		assertThat(persons.get(0).getBirthDate(), is(format.parse("13/07/1973")));

@@ -36,8 +36,12 @@ public class ExcelProcessor<T> {
 
 	// the list of errors (after import)
 	private List<ImportError> errors;
+	// the list of errors in the context of a row
+	private List<ImportError> rowErrors;
 	// mapping of column numbers to columns
 	private Map<Integer, Column<?,?>> columnNumbers;
+	// the meta-info per bean (after import)
+	private List<MetaInfo> beanInfo;
 
 	private static Logger log = Logger.getLogger(ExcelProcessor.class.getName());
 	
@@ -48,6 +52,7 @@ public class ExcelProcessor<T> {
 	private void readinit() {
 		errors = new ArrayList<>();
 		columnNumbers = new HashMap<>();
+		beanInfo = new ArrayList<>();
 	}
 
 	public List<T> read(File file) throws IOException {
@@ -82,6 +87,9 @@ public class ExcelProcessor<T> {
 					T bean = readRow(row);
 					if (bean!=null) {
 						result.add(bean);
+						//write meta-info
+						MetaInfo info = new MetaInfo(row.getRowNum(),rowErrors);
+						beanInfo.add(info);
 					}
 				}			
 				if (columnNumbers.size()==0) {
@@ -93,6 +101,7 @@ public class ExcelProcessor<T> {
 	}
 
 	private T readRow(Row row) {
+		rowErrors = new ArrayList<>();
 		T result = null;
 		if (columnNumbers.size() == 0) {
 			readHeader(row);
@@ -108,7 +117,8 @@ public class ExcelProcessor<T> {
 			try {
 				result = beanClass.newInstance();				
 			} catch (Exception e) {
-				errors.add(new ImportError(ImportError.Type.ERROR_CREATING_BEAN, null, row.getRowNum(), null));
+				ImportError error = new ImportError(ImportError.Type.ERROR_CREATING_BEAN, null, row.getRowNum(), null);
+				errors.add(error);
 				log.log(Level.WARNING, "Could not create bean "+beanClass.getCanonicalName()+" : does it have a default constructor?");
 			}
 			if (result != null) {
@@ -152,7 +162,9 @@ public class ExcelProcessor<T> {
 				PropertyUtils.setProperty(bean, c.getProperty(), c.readConvert(value));
 			}
 		} catch (Exception e) {
-			errors.add(new ImportError(ImportError.Type.GET_PROPERTY_FAILED,c,cell.getRowIndex()+1,e.getLocalizedMessage()));
+			ImportError error = new ImportError(ImportError.Type.GET_PROPERTY_FAILED,c,cell.getRowIndex()+1,e.getLocalizedMessage());
+			rowErrors.add(error);
+			errors.add(error);
 			log.log(Level.WARNING, "Could not get property "+c.getProperty()+" : "+ e.getMessage());
 		}	
 
@@ -309,4 +321,7 @@ public class ExcelProcessor<T> {
 		return errors;
 	}
 
+	public List<MetaInfo> getBeanInfo() {
+		return beanInfo;
+	}
 }

@@ -9,8 +9,7 @@ public class FloatColumn extends NumericConverterColumn<Float> {
 		super(name, 
 				property,  
 				d -> d.floatValue(), 
-				f -> f.doubleValue(), 
-				0);
+				f -> f.doubleValue());
 	}
 
 	@Override

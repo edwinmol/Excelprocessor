@@ -88,7 +88,7 @@ public class ExcelProcessor<T> {
 					if (bean!=null) {
 						result.add(bean);
 						//write meta-info
-						MetaInfo info = new MetaInfo(row.getRowNum(),rowErrors);
+						MetaInfo info = new MetaInfo(row.getRowNum()+1,rowErrors);
 						beanInfo.add(info);
 					}
 				}			
@@ -117,7 +117,7 @@ public class ExcelProcessor<T> {
 			try {
 				result = beanClass.newInstance();				
 			} catch (Exception e) {
-				ImportError error = new ImportError(ImportError.Type.ERROR_CREATING_BEAN, null, row.getRowNum(), null);
+				ImportError error = new ImportError(ImportError.Type.ERROR_CREATING_BEAN, null, row.getRowNum()+1, null);
 				errors.add(error);
 				log.log(Level.WARNING, "Could not create bean "+beanClass.getCanonicalName()+" : does it have a default constructor?");
 			}
@@ -193,7 +193,7 @@ public class ExcelProcessor<T> {
 			if (columnNumbers.size()<columns.size()) {
 				for (Column<?, ?> c : columns.values()) {
 					if (!columnNumbers.values().contains(c)) {
-						errors.add(new ImportError(ImportError.Type.COLUMN_NOT_FOUND,c,row.getRowNum(),null));
+						errors.add(new ImportError(ImportError.Type.COLUMN_NOT_FOUND,c,row.getRowNum()+1,null));
 					}
 				}
 			}

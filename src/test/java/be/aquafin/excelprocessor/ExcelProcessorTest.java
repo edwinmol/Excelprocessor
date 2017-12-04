@@ -174,6 +174,7 @@ public class ExcelProcessorTest {
 		assertThat(errors.size(), is(2));
 		assertThat(birds.size(), is(0));
 		assertThat(errors.get(0).getType(), is(ImportError.Type.ERROR_CREATING_BEAN));
+		assertThat(errors.get(0).getLineNumber(), is(3));
 	}
 	
 	private ExcelProcessor<Bird> createBirdProcessor() {

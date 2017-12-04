@@ -46,4 +46,17 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+  <distributionManagement>
+    <repository>
+      <id>aquafinrepo</id>
+      <name>aquafinrepo-releases</name>
+      <url>http://pjenkins:8085/artifactory/libs-releases-local</url>
+    </repository>
+          <snapshotRepository>
+                  <id>aquafinrepo</id>
+                  <name>aquafinrepo-snapshots</name>
+                  <url>http://pjenkins:8085/artifactory/libs-snapshots-local</url>
+          </snapshotRepository>
+  </distributionManagement>
 </project>

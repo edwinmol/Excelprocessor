@@ -104,6 +104,52 @@ We can read the file as follows.
         processor.worksheet("people"); //select the name of the worksheet to write to (optional)
         processor.write(people, new File("people.xlsx"));
 
+### Using custom converters ###
+
+Besides using the default Column classes you can implement your own by extending the Column<?,?> class or one of its subclasses. 
+This allows you to implement your own conversion functions to convert cell data to a bean property and vice versa.
+
+Have a look at the Float Column as an example on how to do this.
+
+        public class FloatColumn extends NumericConverterColumn<Float> {
+
+	        public FloatColumn(String name, String property) {
+		        super(name, 
+    				property,  
+	    			d -> d.floatValue(), 
+		    		f -> f.doubleValue());
+	        }
+
+	        @Override
+	        public CellStyle getStyle(Workbook wb) {
+		        return null;
+	        }
+
+        }
+
+You can also implement your own column class for adding a custom cell style.
+The example below illustrates the use of a custom Column for writing(and reading) Integer values as centimeters.
+
+        public class CentimeterColumn extends IntegerColumn {
+
+    	    private CellStyle style;
+	
+	        public CentimeterColumn(String name, String property) {
+    	    	super(name, property);
+    	    }
+	
+    	    @Override
+    	    public CellStyle getStyle(Workbook wb) {
+    		    if (style==null) {
+	    		    style = wb.createCellStyle();
+		    	    DataFormat cf = wb.createDataFormat();
+			        style.setDataFormat(cf.getFormat("#0 \"cm\""));
+		        }
+		        return style;
+	        }
+
+        }
+
 ### Questions? ###
 
 * edwin.mol@aquafin.be

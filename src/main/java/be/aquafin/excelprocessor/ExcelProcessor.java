@@ -259,15 +259,17 @@ public class ExcelProcessor<T> {
 
 	private void writeCell(T bean, Column<?,?> c, Cell cell) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Object value = c.writeConvert(PropertyUtils.getProperty(bean, c.getProperty()));
-		if (c instanceof NumericConverterColumn<?>) {
-			cell.setCellType(CellType.NUMERIC);
-			cell.setCellValue((Double)value);
-		} else if (c instanceof StringConverterColumn<?>) {
-			cell.setCellType(CellType.STRING);
-			cell.setCellValue((String)value);
-		} else if (c instanceof BooleanConverterColumn<?>) {
-			cell.setCellType(CellType.BOOLEAN);
-			cell.setCellValue((Boolean)value);
+		if (value!=null){
+			if (c instanceof NumericConverterColumn<?>) {
+				cell.setCellType(CellType.NUMERIC);
+				cell.setCellValue((Double)value);
+			} else if (c instanceof StringConverterColumn<?>) {
+				cell.setCellType(CellType.STRING);
+				cell.setCellValue((String)value);
+			} else if (c instanceof BooleanConverterColumn<?>) {
+				cell.setCellType(CellType.BOOLEAN);
+				cell.setCellValue((Boolean)value);
+			}
 		}
 		CellStyle style = c.getStyle(cell.getSheet().getWorkbook());
 		if (style!=null) {

@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>be.aquafin</groupId>
+  <groupId>be.siteware</groupId>
   <artifactId>excelprocessor</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
 
   <name>excelprocessor</name>
@@ -47,16 +47,4 @@
 		</pluginManagement>
 	</build>
 
-  <distributionManagement>
-    <repository>
-      <id>aquafinrepo</id>
-      <name>aquafinrepo-releases</name>
-      <url>http://pjenkins:8085/artifactory/libs-releases-local</url>
-    </repository>
-          <snapshotRepository>
-                  <id>aquafinrepo</id>
-                  <name>aquafinrepo-snapshots</name>
-                  <url>http://pjenkins:8085/artifactory/libs-snapshots-local</url>
-          </snapshotRepository>
-  </distributionManagement>
 </project>

@@ -13,7 +13,7 @@ Add the following dependency in your pom.xml:
     <dependency>
         <groupId>be.aquafin</groupId>
         <artifactId>excelprocessor</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.3</version>
     </dependency>
 
 ## Quick start ##
@@ -149,7 +149,3 @@ The example below illustrates the use of a custom Column for writing(and reading
 	        }
 
         }
-
-### Questions? ###
-
-* edwin.mol@aquafin.be

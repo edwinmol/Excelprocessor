@@ -11,7 +11,7 @@ The Excelprocessor is a library based on Apache POI that makes it easy to read a
 Add the following dependency in your pom.xml:
 
     <dependency>
-        <groupId>be.aquafin</groupId>
+        <groupId>be.siteware</groupId>
         <artifactId>excelprocessor</artifactId>
         <version>1.0.3</version>
     </dependency>

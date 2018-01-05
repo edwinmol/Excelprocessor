@@ -157,7 +157,7 @@ public class ExcelProcessorTest {
 			assertThat(header.getCell(6).getStringCellValue(), is(("Programmer")));
 		} finally {
 			wb.close();
-			file.delete();			
+			file.delete();
 		}
 	}
 	

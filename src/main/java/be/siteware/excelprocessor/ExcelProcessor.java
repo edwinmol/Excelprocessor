@@ -234,6 +234,10 @@ public class ExcelProcessor<T> {
 				writeRow(bean, sheet.createRow(rowindex));
 				rowindex++;
 			}
+			//autosize columns
+			for (int i = 0; i < list.size(); i++) {
+				sheet.autoSizeColumn(i);
+			}
 			wb.write(out);
 		} catch (Exception e) {
 			throw new WriteException("Writing excel failed",e);

@@ -72,7 +72,7 @@ public class ExcelProcessor<T> {
 			throw new IllegalArgumentException("InputStream cannot be null!");
 		}
 		readinit();
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		try (Workbook wb = new XSSFWorkbook(stream)) {
 			Sheet sheet = wb.getSheetAt(0);
 			if (worksheet!=null) {
@@ -81,14 +81,12 @@ public class ExcelProcessor<T> {
 			if (sheet==null) {
 				errors.add(new ImportError(ImportError.Type.WORKSHEET_NOT_FOUND,null,null,null));
 			} else {
-				Iterator<Row> rows = sheet.iterator();
-				while (rows.hasNext()) {
-					Row row = rows.next();
+				for (Row row : sheet) {
 					T bean = readRow(row);
-					if (bean!=null) {
+					if (bean != null) {
 						result.add(bean);
 						//write meta-info
-						MetaInfo info = new MetaInfo(row.getRowNum()+1,rowErrors);
+						MetaInfo info = new MetaInfo(row.getRowNum() + 1, rowErrors);
 						beanInfo.add(info);
 					}
 				}			
@@ -206,7 +204,7 @@ public class ExcelProcessor<T> {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void write(List<T> beans, OutputStream out) throws WriteException, IOException {
+	private void write(List<T> beans, OutputStream out) throws WriteException, IOException {
 		XSSFWorkbook wb = null;
 		try {
 			wb = new XSSFWorkbook();

@@ -2,7 +2,6 @@ package be.siteware.excelprocessor;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.annotation.Generated;
 
 public class Person {
 
@@ -14,7 +13,6 @@ public class Person {
 	Boolean programmer;
 	BigDecimal salary;
 
-	@Generated("SparkTools")
 	private Person(Builder builder) {
 		this.id = builder.id;
 		this.firstName = builder.firstName;
@@ -75,14 +73,12 @@ public class Person {
 	 * Creates builder to build {@link Person}.
 	 * @return created builder
 	 */
-	@Generated("SparkTools")
 	public static Builder builder() {
 		return new Builder();
 	}
 	/**
 	 * Builder to build {@link Person}.
 	 */
-	@Generated("SparkTools")
 	public static final class Builder {
 		private Long id;
 		private String firstName;

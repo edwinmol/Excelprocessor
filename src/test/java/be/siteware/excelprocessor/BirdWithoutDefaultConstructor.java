@@ -1,5 +1,6 @@
 package be.siteware.excelprocessor;
 
+import javax.annotation.Generated;
 
 public class BirdWithoutDefaultConstructor {
 
@@ -14,6 +15,7 @@ public class BirdWithoutDefaultConstructor {
 		this.size = size;
 	}
 
+	@Generated("SparkTools")
 	private BirdWithoutDefaultConstructor(Builder builder) {
 		this.name = builder.name;
 		this.color = builder.color;
@@ -48,6 +50,7 @@ public class BirdWithoutDefaultConstructor {
 	 * Creates builder to build {@link BirdWithoutDefaultConstructor}.
 	 * @return created builder
 	 */
+	@Generated("SparkTools")
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -55,6 +58,7 @@ public class BirdWithoutDefaultConstructor {
 	/**
 	 * Builder to build {@link BirdWithoutDefaultConstructor}.
 	 */
+	@Generated("SparkTools")
 	public static final class Builder {
 		private String name;
 		private String color;

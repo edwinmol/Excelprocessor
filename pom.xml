@@ -4,7 +4,7 @@
 
     <groupId>be.siteware</groupId>
     <artifactId>excelprocessor</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.4</version>
     <packaging>jar</packaging>
 
     <name>be.siteware:excelprocessor</name>
@@ -34,7 +34,7 @@
     </scm>
 
     <properties>
-        <java.version>9</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -47,7 +47,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
-            <artifactId>poi-merged</artifactId>
+            <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
         </dependency>
         <dependency>
@@ -68,10 +68,10 @@
         </repository>
     </distributionManagement>
     <build>
+        <pluginManagement>
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.7.0</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -129,6 +129,7 @@
                     </configuration>
                 </plugin>
             </plugins>
+        </pluginManagement>
     </build>
 
 </project>

@@ -1,13 +1,13 @@
 pipeline {
   agent any
+  tools {
+    maven 'M3'
+    java8 'J8'
+  }
   stages {
     stage('Build') {
       steps {
-        def mvn_version = 'M3'
-        def java_version = 'J8'
-        withEnv( ["PATH+MAVEN=${tool mvn_version}/bin","JAVA_HOME=${tool java_version}"] ) {          
-          sh 'mvn clean install'
-        }
+          sh 'mvn -B clean install'
       }
     }
   }

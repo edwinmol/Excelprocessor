@@ -8,11 +8,6 @@ pipeline {
       version = readMavenPom().getVersion()
   }
   stages {
-    stage('Fetching from GIT'){
-      steps {
-		checkout scm
-      }
-    }
 	stage('Compile') {
 		steps {
 			echo 'Compiling...'

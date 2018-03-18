@@ -26,14 +26,16 @@ pipeline {
             junit '**/target/surefire-reports/*.xml'
 		}
 	}
-    stage('Package') {
+    stage('Archive') {
       steps {
-          sh 'mvn -B -DskipTests=true package'
+          sh 'mvn -B -DskipTests=true install'
       }
     }
-    stage('Echo') {
+    stage('Deploy') {
       steps {
-        echo "$version"
+          if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
+              echo "deploying $version to ..."
+          }
       }
     }
   }

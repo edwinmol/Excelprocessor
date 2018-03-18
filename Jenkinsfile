@@ -28,9 +28,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-          if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
-              echo "deploying $version to ..."
-          }
+          echo "deploying $version to ..."
       }
     }
   }

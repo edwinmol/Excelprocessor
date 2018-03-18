@@ -10,9 +10,9 @@ pipeline {
   stages {
     stage('Fetching from GIT'){
       steps {
-		    checkout scm
+	checkout scm
       }
-	  }
+    }
     stage('Build') {
       steps {
           sh 'mvn -B clean install'

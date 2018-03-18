@@ -10,12 +10,24 @@ pipeline {
   stages {
     stage('Fetching from GIT'){
       steps {
-	checkout scm
+		checkout scm
       }
     }
-    stage('Build') {
+	stage('Compile') {
+		steps {
+			echo 'Compiling...'
+			sh 'mvn -B clean compile'
+		}
+	}
+	stage('Test') {
+		steps {
+			echo 'Testing...'
+			sh 'mvn -B test'
+		}
+	}
+    stage('Package') {
       steps {
-          sh 'mvn -B clean install'
+          sh 'mvn -B -DskipTests=true package'
       }
     }
     stage('Echo') {

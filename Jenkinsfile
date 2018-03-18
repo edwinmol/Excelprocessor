@@ -8,6 +8,11 @@ pipeline {
       version = readMavenPom().getVersion()
   }
   stages {
+    stage('Fetching from GIT'){
+      steps {
+		    checkout scm
+      }
+	  }
     stage('Build') {
       steps {
           sh 'mvn -B clean install'

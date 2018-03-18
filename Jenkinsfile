@@ -1,9 +1,7 @@
 pipeline {
-  agent any
-  tools {
-    maven 'M3'
-    jdk 'J8'
-  }
+	agent {
+		docker { image 'maven:3.5.3-jdk-8' }
+	}
   environment {
       version = readMavenPom().getVersion()
   }

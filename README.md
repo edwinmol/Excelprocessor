@@ -13,7 +13,7 @@ Add the following dependency in your pom.xml:
     <dependency>
         <groupId>be.siteware</groupId>
         <artifactId>excelprocessor</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
     </dependency>
 
 ## Quick start ##
@@ -22,11 +22,11 @@ Add the following dependency in your pom.xml:
 
 * Given and excel file with contents:
 
-id      | First Name      | Last Name      | Date of Birth
-:-------|:----------------|:---------------|:-------------
-1       | Edwin           | Mol            | 13/07/1973
-2       | Gert            | Verbiest       | 11/10/1988
-3       | Monique         | Verstappen     | 10/06/1978
+Identifier| First Name      | Last Name      | Date of Birth
+:---------|:----------------|:---------------|:-------------
+1         | Edwin           | Mol            | 13/07/1973
+2         | Gert            | Verbiest       | 11/10/1988
+3         | Monique         | Verstappen     | 10/06/1978
 
 We can read the file as follows.
 
